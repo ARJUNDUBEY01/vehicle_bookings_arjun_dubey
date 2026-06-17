@@ -426,7 +426,7 @@
 	"variable": [
 		{
 			"key": "BASE_URL",
-			"value": "http://localhost:5000/api/v1",
+			"value": "https://vehicle-bookings-arjun-dubey.vercel.app/api/v1",
 			"type": "string"
 		}
 	]
