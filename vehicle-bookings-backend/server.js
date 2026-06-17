@@ -31,6 +31,23 @@ if (process.env.NODE_ENV === 'development') {
 // Rate Limiting
 app.use(globalLimiter);
 
+// Root welcome route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Vehicle Bookings API is running',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/v1/auth',
+      bookings: '/api/v1/bookings',
+      stats: '/api/v1/stats',
+      search: '/api/v1/search',
+      health: '/api/v1/health',
+      docs: '/api-docs'
+    }
+  });
+});
+
 // Routes
 const authRoutes = require('./routes/auth.routes');
 const bookingRoutes = require('./routes/booking.routes');
@@ -66,12 +83,18 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-});
+// Only start the server when running locally (not on Vercel)
+if (process.env.VERCEL !== '1') {
+  const server = app.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  });
 
-// Initialize Socket.io
-const io = socket.init(server);
-io.on('connection', (client) => {
-  console.log('Client connected to socket.io');
-});
+  // Initialize Socket.io
+  const io = socket.init(server);
+  io.on('connection', (client) => {
+    console.log('Client connected to socket.io');
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
