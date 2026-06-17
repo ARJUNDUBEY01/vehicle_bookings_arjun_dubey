@@ -1,0 +1,433 @@
+{
+	"info": {
+		"_postman_id": "8b9e6cf2-44a7-4b72-88ef-2679dc6ebda0",
+		"name": "Vehicle Bookings API",
+		"description": "API collection for the Vehicle Booking Analytics Platform, supporting authentication, booking management, advanced searches, and system analytics dashboards.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Arjun Dubey\",\n  \"email\": \"arjun@example.com\",\n  \"password\": \"Arjundubey@01\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"arjun@example.com\",\n  \"password\": \"Arjundubey@01\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "Fetch All Bookings (with Pagination, Filter, Sort)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bookings?status=Success&vehicle=Bike&payment=UPI&page=1&limit=10&sort=-Booking_Value",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "Success",
+									"description": "Filter by Booking Status"
+								},
+								{
+									"key": "vehicle",
+									"value": "Bike",
+									"description": "Filter by Vehicle Type (e.g. Bike, Auto, Mini)"
+								},
+								{
+									"key": "payment",
+									"value": "UPI",
+									"description": "Filter by Payment Method (e.g. UPI, Cash, Card)"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Pagination Page Number"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Pagination Page Limit"
+								},
+								{
+									"key": "sort",
+									"value": "-Booking_Value",
+									"description": "Sort by fields (prefix - for desc, e.g. -Booking_Value, Ride_Distance)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Booking by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bookings/:bookingId",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bookings",
+								":bookingId"
+							],
+							"variable": [
+								{
+									"key": "bookingId",
+									"value": "664c8dcd981dbe5a528178ac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Booking",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"booking_id\": \"CNR987654\",\n  \"date\": \"2024-07-26T00:00:00.000Z\",\n  \"time\": \"14:30:00\",\n  \"status\": \"Success\",\n  \"customer_id\": \"CID123456\",\n  \"vehicle_type\": \"Bike\",\n  \"pickup_location\": \"Indiranagar\",\n  \"drop_location\": \"Jayanagar\",\n  \"booking_value\": 150,\n  \"payment_method\": \"UPI\",\n  \"ride_distance\": 7.5\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bookings",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Replace Booking Details",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pickup_location\": \"Koramangala\",\n  \"drop_location\": \"HSR Layout\",\n  \"booking_value\": 220\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bookings/:bookingId",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bookings",
+								":bookingId"
+							],
+							"variable": [
+								{
+									"key": "bookingId",
+									"value": "664c8dcd981dbe5a528178ac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Booking Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Canceled by Customer\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bookings/:bookingId/status",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bookings",
+								":bookingId",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "bookingId",
+									"value": "664c8dcd981dbe5a528178ac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Booking",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bookings/:bookingId",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bookings",
+								":bookingId"
+							],
+							"variable": [
+								{
+									"key": "bookingId",
+									"value": "664c8dcd981dbe5a528178ac"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Keyword Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/search?keyword=Indiranagar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "Indiranagar",
+									"description": "Any keyword such as location, vehicle type, payment type, or status"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Statistics",
+			"item": [
+				{
+					"name": "Total Bookings Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stats/total-bookings",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stats",
+								"total-bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Success Rides Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stats/success-rides",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stats",
+								"success-rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelled Rides Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stats/cancelled-rides",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stats",
+								"cancelled-rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Incomplete Rides Count",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stats/incomplete-rides",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stats",
+								"incomplete-rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Top Vehicle Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stats/top-vehicle",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stats",
+								"top-vehicle"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Top Payment Method",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stats/top-payment-method",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stats",
+								"top-payment-method"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:5000/api/v1",
+			"type": "string"
+		}
+	]
+}
